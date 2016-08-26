@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane minHeight="600.0" minWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrpe.novo.tks.gui.model.LoginController">
+   <children>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="331.0" layoutY="96.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="331.0" AnchorPane.topAnchor="96.0">
+         <image>
+            <Image url="@../../../../../../../../TKS-II/TKS-master/TKS-master/res/tks.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="campoMatricula" layoutX="357.0" layoutY="257.0" promptText="LOGIN" />
+      <PasswordField fx:id="campoSenha" layoutX="357.0" layoutY="288.0" promptText="SENHA" />
+      <Label layoutX="365.0" layoutY="205.0" prefHeight="42.0" prefWidth="132.0" text="INSIRA LOGIN E SENHA" AnchorPane.leftAnchor="365.0" />
+      <Button fx:id="btEntrar" layoutX="387.0" layoutY="336.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="25.0" prefWidth="88.0" text="ENTRAR" />
+      <Label fx:id="lbErro" alignment="CENTER" layoutX="330.0" layoutY="239.0" prefHeight="17.0" prefWidth="205.0" textFill="RED" />
+   </children>
+</AnchorPane>

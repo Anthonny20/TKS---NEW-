@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane minHeight="600.0" minWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrpe.novo.tks.gui.model.FuncionarioController">
+   <children>
+      <TabPane layoutX="14.0" layoutY="53.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0">
+        <tabs>
+          <Tab text="ESCALA DO MÊS">
+               <content>
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                    <content>
+                      <AnchorPane minHeight="450.0" minWidth="800.0" prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="selecionadoTable" prefHeight="450.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+                                 <columns>
+                                    <TableColumn fx:id="tcCargo" prefWidth="95.0" text="CARGO" />
+                                    <TableColumn fx:id="tcMatricula" prefWidth="92.0" text="MATRICULA" />
+                                    <TableColumn fx:id="tcNome" prefWidth="162.0" text="NOME" />
+                                    <TableColumn fx:id="tcFuncao" prefWidth="182.0" text="FUNÇÃO" />
+                                    <TableColumn fx:id="tcDiasSorteados" prefWidth="148.0" resizable="false" text="DIAS SORTEADOS" />
+                                    <TableColumn fx:id="tcTotalDias" prefWidth="120.0" text="TOTAL DE DIAS" />
+                                 </columns>
+                              </TableView>
+                              <HBox prefHeight="57.0" prefWidth="800.0">
+                                 <children>
+                                    <Label prefHeight="57.0" prefWidth="109.0" text="DIAS SORTEADOS:" />
+                                    <Label fx:id="lbD01" alignment="CENTER" prefHeight="57.0" prefWidth="51.0" text="00" />
+                                    <Label fx:id="lbD02" alignment="CENTER" layoutX="119.0" layoutY="10.0" prefHeight="57.0" prefWidth="51.0" text="00" />
+                                    <Label fx:id="lbD03" alignment="CENTER" layoutX="119.0" layoutY="10.0" prefHeight="57.0" prefWidth="51.0" text="00" />
+                                    <Label fx:id="lbD04" alignment="CENTER" layoutX="170.0" layoutY="10.0" prefHeight="57.0" prefWidth="51.0" text="00" />
+                                    <Label fx:id="lbD05" alignment="CENTER" layoutX="272.0" layoutY="10.0" prefHeight="57.0" prefWidth="51.0" text="00" />
+                                    <Label fx:id="lbD06" alignment="CENTER" layoutX="119.0" layoutY="10.0" prefHeight="57.0" prefWidth="51.0" text="00" />
+                                    <Label fx:id="lbD07" alignment="CENTER" layoutX="170.0" layoutY="10.0" prefHeight="57.0" prefWidth="51.0" text="00" />
+                                    <Label fx:id="lbD08" alignment="CENTER" layoutX="221.0" layoutY="10.0" prefHeight="57.0" prefWidth="51.0" text="00" />
+                                    <Label fx:id="lbD09" alignment="CENTER" layoutX="476.0" layoutY="10.0" prefHeight="57.0" prefWidth="51.0" text="00" />
+                                    <Label fx:id="lbD10" alignment="CENTER" layoutX="425.0" layoutY="10.0" prefHeight="57.0" prefWidth="51.0" text="00" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+               </content>
+          </Tab>
+            <Tab text="BUSCAR MESES ANTERIORES">
+               <content>
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                    <content>
+                      <AnchorPane minHeight="450.0" minWidth="800.0" prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <AnchorPane minHeight="450.0" minWidth="800.0" prefHeight="180.0" prefWidth="200.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button fx:id="btConsultar" layoutX="474.0" layoutY="34.0" mnemonicParsing="false" onAction="#handleConsultar" text="CONSULTAR" />
+                                    <TextField fx:id="tfMesAno" layoutX="314.0" layoutY="34.0" promptText="MM/AAAA" />
+                                    <Label layoutX="14.0" layoutY="33.0" text="INSIRA MES E ANO PARA PESQUISA:">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Separator layoutX="51.0" layoutY="81.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="81.0" />
+                                    <TableView fx:id="selecionadoTable2" prefHeight="451.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="82.0">
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
+                                       <columns>
+                                          <TableColumn fx:id="tcCargo2" prefWidth="75.0" text="CARGO" />
+                                          <TableColumn fx:id="tcMatricula2" prefWidth="75.0" text="MATRÍCULA" />
+                                          <TableColumn fx:id="tcNome2" prefWidth="75.0" text="NOME" />
+                                          <TableColumn fx:id="tcFuncao2" prefWidth="75.0" text="FUNÇÃO" />
+                                          <TableColumn fx:id="tcDiasSorteados2" prefWidth="75.0" text="DIAS SORTEADOS" />
+                                          <TableColumn fx:id="tcTotalDias2" prefWidth="75.0" text="TOTAL DE DIAS" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+               </content>
+            </Tab>
+          <Tab text="DADOS CADASTRO">
+            <content>
+              <AnchorPane>
+                     <children>
+                        <Label layoutX="237.0" layoutY="132.0" prefHeight="27.0" prefWidth="121.0" text="VOLUNTÁRIO:">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <ChoiceBox fx:id="cbVoluntarioCadastro" layoutX="355.0" layoutY="133.0" prefHeight="25.0" prefWidth="55.0" />
+                        <Label layoutX="124.0" layoutY="199.0" text="QUANTIDADE DE SERVIÇOS:">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="tfQTDServicosCadastro" layoutX="356.0" layoutY="200.0" promptText="QTD DE SERVIÇOS" />
+                        <Label layoutX="204.0" layoutY="232.0" text="DIAS PREFERIDOS:">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="tfDiasPreferidosCadastro" layoutX="356.0" layoutY="233.0" promptText="EX: 01,02,12,15" />
+                        <Button fx:id="btSalvarCadastro" layoutX="368.0" layoutY="308.0" mnemonicParsing="false" onAction="#handleSalvar" prefHeight="25.0" prefWidth="124.0" text="SALVAR" />
+                        <Label layoutX="286.0" layoutY="166.0" text="ESCALA:">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <ChoiceBox fx:id="cbEscalaCadastro" layoutX="355.0" layoutY="167.0" prefWidth="150.0" />
+                        <Label fx:id="lbAvisoErro" alignment="CENTER" layoutX="356.0" layoutY="269.0" prefHeight="27.0" prefWidth="150.0" textFill="RED" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <ImageView fitHeight="123.0" fitWidth="200.0" layoutX="20.0" layoutY="34.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <image>
+            <Image url="@../../../../../../../../TKS-II/TKS-master/TKS-master/res/tks.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="lbCargo" alignment="CENTER" layoutX="343.0" layoutY="6.0" prefHeight="17.0" prefWidth="115.0" text="CARGO" AnchorPane.topAnchor="8.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbMatricula" alignment="CENTER" layoutX="343.0" layoutY="38.0" prefHeight="17.0" prefWidth="115.0" text="MATRICULA">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbNome" alignment="CENTER" layoutX="291.0" layoutY="69.0" prefHeight="37.0" prefWidth="220.0" text="NOME" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="btSair" layoutX="645.0" layoutY="120.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="30.0" prefWidth="115.0" text="SAIR" textFill="#eb0707" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <effect>
+            <InnerShadow />
+         </effect>
+      </Button>
+   </children>
+</AnchorPane>
