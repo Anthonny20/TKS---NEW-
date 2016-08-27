@@ -346,27 +346,35 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Button layoutX="474.0" layoutY="34.0" mnemonicParsing="false" text="CONSULTAR" />
-                        <TextField layoutX="314.0" layoutY="34.0" promptText="MM/AAAA" />
+                        <Button fx:id="btConsultarBMA" layoutX="474.0" layoutY="34.0" mnemonicParsing="false" onAction="#handleConsultarBMA" text="CONSULTAR" />
+                        <TextField fx:id="tfMesAnoBMA" layoutX="314.0" layoutY="34.0" promptText="MM/AAAA" />
                         <Label layoutX="14.0" layoutY="33.0" text="INSIRA MES E ANO PARA PESQUISA:">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
                         <Separator layoutX="51.0" layoutY="81.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="81.0" />
-                        <TableView prefHeight="451.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="82.0">
+                        <TableView fx:id="tvEscolhidoBMA" prefHeight="451.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="82.0">
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                            <columns>
-                              <TableColumn prefWidth="75.0" text="CARGO" />
-                              <TableColumn prefWidth="75.0" text="MATRÍCULA" />
-                              <TableColumn prefWidth="75.0" text="NOME" />
-                              <TableColumn prefWidth="75.0" text="FUNÇÃO" />
-                              <TableColumn prefWidth="75.0" text="DIAS SORTEADOS" />
-                              <TableColumn prefWidth="75.0" text="TOTAL DE DIAS" />
+                              <TableColumn fx:id="tcCargoBMA" prefWidth="75.0" text="CARGO" />
+                              <TableColumn fx:id="tcMatriculaBMA" prefWidth="75.0" text="MATRÍCULA" />
+                              <TableColumn fx:id="tcNomeBMA" prefWidth="75.0" text="NOME" />
+                              <TableColumn fx:id="tcFuncaoBMA" prefWidth="75.0" text="FUNÇÃO" />
+                              <TableColumn fx:id="tcDiasBMA" prefWidth="75.0" text="DIAS SORTEADOS" />
+                              <TableColumn fx:id="tcTotalBMA" prefWidth="75.0" text="TOTAL DE DIAS" />
                            </columns>
                         </TableView>
+                        <Button fx:id="btDeletarEscalaBMA" alignment="CENTER" layoutX="650.0" layoutY="34.0" mnemonicParsing="false" onAction="#handleRemoverEscalaBMA" prefHeight="25.0" prefWidth="129.0" text="DELETAR ESCALA" textFill="RED" AnchorPane.rightAnchor="0.0">
+                           <effect>
+                              <InnerShadow />
+                           </effect>
+                        </Button>
+                        <PasswordField fx:id="pfSenhaDeletarBMA" alignment="CENTER" layoutX="665.0" layoutY="7.0" prefHeight="9.0" prefWidth="129.0" promptText="SENHA" AnchorPane.rightAnchor="0.0" />
+                        <Label fx:id="lbErroDeletarBMA" alignment="CENTER" layoutX="671.0" layoutY="59.0" prefHeight="20.0" prefWidth="129.0" text="INSIRA A SENHA!!!" textFill="RED" AnchorPane.rightAnchor="0.0" />
+                        <Label fx:id="lbDataInexistenteBMA" alignment="CENTER" layoutX="314.0" layoutY="61.0" prefHeight="17.0" prefWidth="149.0" text="DATA INEXISTENTE!!!" textFill="RED" />
                      </children>
                   </AnchorPane>
                </content>

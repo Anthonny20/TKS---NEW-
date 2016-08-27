@@ -12,15 +12,18 @@ import br.ufrpe.novo.tks.gui.MainAppTKS;
 import br.ufrpe.novo.tks.negocios.CadastroPessoa;
 import br.ufrpe.novo.tks.negocios.Servidor;
 import br.ufrpe.novo.tks.negocios.beans.Administrador;
+import br.ufrpe.novo.tks.negocios.beans.EscalaMes;
 import br.ufrpe.novo.tks.negocios.beans.EscalaNormal;
 import br.ufrpe.novo.tks.negocios.beans.Funcionario;
 import br.ufrpe.novo.tks.negocios.beans.Pessoa;
+import br.ufrpe.novo.tks.negocios.beans.Selecionado;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -121,6 +124,37 @@ public class AdministradorController {
 	@FXML
 	private TableColumn tcEscalaCV;
 	
+	//PARTE BUSCAR MESES ANTERIORES / 
+	
+	@FXML
+	private TextField tfMesAnoBMA;
+	@FXML
+	private Button btConsultarBMA;
+	@FXML
+	private Button btDeletarEscalaBMA;
+	@FXML
+	private PasswordField pfSenhaDeletarBMA;
+	@FXML
+	private Label lbErroDeletarBMA;
+	@FXML
+	private Label lbDataInexistenteBMA;
+	@FXML
+	private TableView<Selecionado> tvEscolhidoBMA;
+	@FXML
+	private TableColumn<Selecionado, String> tcCargoBMA;
+	@FXML
+	private TableColumn<Selecionado, String> tcMatriculaBMA;
+	@FXML
+	private TableColumn<Selecionado, String> tcNomeBMA;
+	@FXML
+	private TableColumn<Selecionado, String> tcFuncaoBMA;
+	@FXML
+	private TableColumn<Selecionado, String> tcDiasBMA;
+	@FXML
+	private TableColumn<Selecionado, String> tcTotalBMA;
+	
+	//
+	
 	public AdministradorController(){
 		
 	}
@@ -161,8 +195,10 @@ public class AdministradorController {
 		this.cbEscalaAP.setItems(escalaList);
 		this.lbSucessoAP.setText("");
 		this.lbErroAP.setText("");
-		this.funcList.addAll(this.createFuncList());
-		System.out.println(funcList.toString());
+		this.lbErroDeletarBMA.setText("");
+		this.lbDataInexistenteBMA.setText("");
+//		this.funcList.addAll(this.createFuncList());
+//		System.out.println(funcList.toString());
 	}
 	
 	@FXML
@@ -369,6 +405,56 @@ public class AdministradorController {
 			e.printStackTrace();
 		}
 	}
+	
+	@FXML
+	private void handleConsultarBMA(){
+		
+		this.lbDataInexistenteBMA.setText("");
+		this.tvEscolhidoBMA.setItems(null);
+		
+		ObservableList<Selecionado> temporal = FXCollections.observableArrayList();
+		if((Servidor.getInstance().procurarEscala(this.tfMesAnoBMA.getText())) == null){
+			this.lbDataInexistenteBMA.setText("DATA INEXISTENTE");
+		}
+		else{
+			
+			EscalaMes temp = Servidor.getInstance().procurarEscala(tfMesAnoBMA.getText());
+			temporal.addAll(temp.getVoluntarios());
+			tcNomeBMA.setCellValueFactory(cellData -> cellData.getValue().getNomeProperty());
+			tcMatriculaBMA.setCellValueFactory(cellData -> cellData.getValue().getMatriculaProperty());
+			tcCargoBMA.setCellValueFactory(cellData -> cellData.getValue().getCargoProperty());
+			tcFuncaoBMA.setCellValueFactory(cellData -> cellData.getValue().getFuncaoProperty());
+			tcDiasBMA.setCellValueFactory(cellData -> cellData.getValue().getDiasSorteadosProperty());
+			tcTotalBMA.setCellValueFactory(cellData -> cellData.getValue().getTotalDiasProperty());
+			this.tvEscolhidoBMA.setItems(temporal);
+		}
+		
+	}
+	
+	@FXML
+	private void handleRemoverEscalaBMA(){
+		this.lbErroDeletarBMA.setText("");
+		if(this.pfSenhaDeletarBMA.getText().equals("")){
+			this.lbErroDeletarBMA.setText("INSIRA A SENHA!!!");
+		}
+		else if( !(this.pfSenhaDeletarBMA.getText().equals(this.logado.getSenha())) ){
+			this.lbErroDeletarBMA.setText("SENHA INCORRETA!!!");
+		}
+		
+		else if(this.pfSenhaDeletarBMA.getText().equals(this.logado.getSenha())){
+			if(this.tfMesAnoBMA.getText().equals("")){
+				this.lbErroDeletarBMA.setText("INSIRA A DATA!!!");
+			}
+			else if(Servidor.getInstance().procurarEscala(this.tfMesAnoBMA.getText()) == null){
+				this.lbErroDeletarBMA.setText("DATA INEXISTENTE!!!");
+			}
+			else{
+				Servidor.getInstance().removerEscala(Servidor.getInstance().procurarEscala(this.tfMesAnoBMA.getText()));
+				this.lbErroDeletarBMA.setText("ESCALA REMOVIDA!!!");
+			}
+		}
+	}
+	
 	
 	@FXML
 	private void handleSair(){

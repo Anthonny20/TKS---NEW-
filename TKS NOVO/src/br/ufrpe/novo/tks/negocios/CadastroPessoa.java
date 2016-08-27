@@ -146,7 +146,11 @@ public class CadastroPessoa {
 		return this.escalas.procurarEscala(mesAno);
 	}
 	
-	public EscalaMes selecionarPessoas(int dias, int qtdDia) throws UsuarioNaoEncontradoException{
+	public void removerEscala(EscalaMes escala){
+		this.escalas.removerEscala(escala);
+	}
+
+		 public EscalaMes selecionarPessoas(int dias, int qtdDia) throws UsuarioNaoEncontradoException{
 		 String [] [] selecaoDias = new String [dias] [qtdDia];
 		 Scanner sc = new Scanner(System.in);
 		 int contador = 0;

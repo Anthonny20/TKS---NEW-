@@ -82,4 +82,9 @@ public class Servidor {
 		return this.pessoa.selecionarPessoas(dias, qtdDia);
 	}
 
+	public void removerEscala(EscalaMes procurarEscala) {
+		this.pessoa.removerEscala(procurarEscala);
+		
+	}
+
 }
