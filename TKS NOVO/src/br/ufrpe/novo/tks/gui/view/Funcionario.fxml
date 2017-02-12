@@ -126,9 +126,9 @@
           </Tab>
         </tabs>
       </TabPane>
-      <ImageView fitHeight="123.0" fitWidth="200.0" layoutX="20.0" layoutY="34.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fitHeight="164.0" fitWidth="249.0" layoutX="20.0" layoutY="34.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@../../../../../../../../TKS-II/TKS-master/TKS-master/res/tks.png" />
+            <Image url="@../../../../../../../images/tks.png" />
          </image>
       </ImageView>
       <Label fx:id="lbCargo" alignment="CENTER" layoutX="343.0" layoutY="6.0" prefHeight="17.0" prefWidth="115.0" text="CARGO" AnchorPane.topAnchor="8.0">

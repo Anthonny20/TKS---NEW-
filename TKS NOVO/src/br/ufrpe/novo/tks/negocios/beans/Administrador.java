@@ -16,13 +16,13 @@ public class Administrador extends Pessoa{
 		return super.getMatricula();
 	}
 	
-	public boolean equals(Administrador a){
+	public boolean equals(Object o){
 		boolean resultado=false;
-		
-		if(((Pessoa)a).getMatricula() == ((Pessoa)this).getMatricula()){
-			resultado=true;
+		if(o != null){
+			if(o instanceof Administrador){
+				super.equals(o);
+			}
 		}
-		
 		return resultado;
 	}
 }

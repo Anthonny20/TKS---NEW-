@@ -1,10 +1,11 @@
 package br.ufrpe.novo.tks.negocios;
 
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.List;
 
 import br.ufrpe.novo.tks.dados.IRepositorioEscalaMes;
 import br.ufrpe.novo.tks.dados.IRepositorioPessoa;
+import br.ufrpe.novo.tks.exceptions.EscalaNaoEncontradaException;
 import br.ufrpe.novo.tks.exceptions.LoginIncorretoException;
 import br.ufrpe.novo.tks.exceptions.SenhaIncorretaException;
 import br.ufrpe.novo.tks.exceptions.UsuarioJaCadastradoException;
@@ -13,7 +14,6 @@ import br.ufrpe.novo.tks.negocios.beans.Administrador;
 import br.ufrpe.novo.tks.negocios.beans.EscalaMes;
 import br.ufrpe.novo.tks.negocios.beans.Funcionario;
 import br.ufrpe.novo.tks.negocios.beans.Pessoa;
-import br.ufrpe.novo.tks.negocios.beans.Selecionado;
 
 public class CadastroPessoa {
 	private IRepositorioPessoa pessoas;
@@ -92,6 +92,10 @@ public class CadastroPessoa {
 		}
 	}
 	
+	public void remover(int index){
+		this.pessoas.remover(index);
+	}
+	
 	public Pessoa procurar(String matricula) throws UsuarioNaoEncontradoException{
 		Pessoa procurado = null;
 		procurado = this.pessoas.procurar(matricula);
@@ -121,18 +125,19 @@ public class CadastroPessoa {
 		return efetuado;
 	}
 	
-	public ArrayList<Pessoa> getPessoas() {
+	public List<Pessoa> getPessoas() {
 	    return this.pessoas.getUsuarios();
 	}
 	
-	public ArrayList<Pessoa> getFuncionariosList(){
-		ArrayList<Pessoa> lista = this.getPessoas();
+	public List<Pessoa> getFuncionariosList() {
+		List<Pessoa> func = new ArrayList<>();
+		List<Pessoa> lista = this.getPessoas();
 		for(Pessoa p : lista){
-			if(p instanceof Administrador){
-				lista.remove(p);
+			if(p instanceof Funcionario){
+				func.add(p);
 			}
 		}
-		return lista;
+		return func;
 	}
 	
 	
@@ -142,14 +147,21 @@ public class CadastroPessoa {
 		this.escalas.cadastrarEscala(nova);
 	}
 	
-	public EscalaMes procurarEscala(String mesAno){
-		return this.escalas.procurarEscala(mesAno);
+	public EscalaMes procurarEscala(String mesAno) throws EscalaNaoEncontradaException{
+		EscalaMes resultado = new EscalaMes();
+		resultado = this.escalas.procurarEscala(mesAno);
+		if(resultado == null){
+			EscalaNaoEncontradaException ene = new EscalaNaoEncontradaException();
+			throw ene;
+		}
+		return resultado;
 	}
 	
 	public void removerEscala(EscalaMes escala){
 		this.escalas.removerEscala(escala);
 	}
 
+	/*
 		 public EscalaMes selecionarPessoas(int dias, int qtdDia) throws UsuarioNaoEncontradoException{
 		 String [] [] selecaoDias = new String [dias] [qtdDia];
 		 Scanner sc = new Scanner(System.in);
@@ -257,5 +269,6 @@ public class CadastroPessoa {
 		}
 		return resultado;
 	}
+	*/
 	
 }

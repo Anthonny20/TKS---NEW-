@@ -27,6 +27,7 @@ public class LoginController {
 	private Button btEntrar;
 	@FXML
 	private Label lbErro;
+	
 
 	private MainAppTKS mainApp;
 	private Pessoa logado;
@@ -41,6 +42,7 @@ public class LoginController {
 
 	@FXML
 	private void initialize() {
+		
 
 	}
 

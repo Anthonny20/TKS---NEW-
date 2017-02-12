@@ -1,9 +1,10 @@
 package br.ufrpe.novo.tks.negocios;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import br.ufrpe.novo.tks.dados.RepositorioEscalaMes;
 import br.ufrpe.novo.tks.dados.RepositorioPessoa;
+import br.ufrpe.novo.tks.exceptions.EscalaNaoEncontradaException;
 import br.ufrpe.novo.tks.exceptions.UsuarioJaCadastradoException;
 import br.ufrpe.novo.tks.exceptions.UsuarioNaoEncontradoException;
 import br.ufrpe.novo.tks.negocios.beans.Administrador;
@@ -55,11 +56,16 @@ public class Servidor {
 		Servidor.getInstance().salvardb();
 	}
 	
-	public ArrayList<Pessoa> getPessoas() {
+	public void remover(int index){
+		pessoa.remover(index);
+		Servidor.getInstance().salvardb();
+	}
+	
+	public List<Pessoa> getPessoas() {
 	    return this.pessoa.getPessoas();
 	}
 	
-	public ArrayList<Pessoa> getFuncionariosList(){
+	public List<Pessoa> getFuncionariosList(){
 		return this.pessoa.getFuncionariosList();
 	}
 	
@@ -74,13 +80,14 @@ public class Servidor {
 		this.pessoa.cadastrarEscala(nova);
 	}
 	
-	public EscalaMes procurarEscala(String mesAno){
+	public EscalaMes procurarEscala(String mesAno) throws EscalaNaoEncontradaException{
 		return this.pessoa.procurarEscala(mesAno);
 	}
-	
+	/*
 	public EscalaMes selecionarPessoas(int dias, int qtdDia) throws UsuarioNaoEncontradoException{
 		return this.pessoa.selecionarPessoas(dias, qtdDia);
 	}
+	*/
 
 	public void removerEscala(EscalaMes procurarEscala) {
 		this.pessoa.removerEscala(procurarEscala);

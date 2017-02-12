@@ -2,11 +2,13 @@ package br.ufrpe.novo.tks.gui.model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import br.ufrpe.novo.tks.dados.IRepositorioPessoa;
 import br.ufrpe.novo.tks.dados.RepositorioEscalaMes;
 import br.ufrpe.novo.tks.dados.RepositorioPessoa;
+import br.ufrpe.novo.tks.exceptions.EscalaNaoEncontradaException;
 import br.ufrpe.novo.tks.exceptions.UsuarioJaCadastradoException;
 import br.ufrpe.novo.tks.exceptions.UsuarioNaoEncontradoException;
 import br.ufrpe.novo.tks.gui.MainAppTKS;
@@ -147,11 +149,20 @@ public class FuncionarioController {
 	
 	public void setMainApp(MainAppTKS mainApp) {
 		this.mainApp = mainApp;
-		this.selecionadoData = mainApp.getSelecionadoData();
-		selecionadoTable.setItems(this.selecionadoData);
+		try {
+			this.selecionadoData = mainApp.getSelecionadoData();
+		} catch (EscalaNaoEncontradaException e) {
+			e.printStackTrace();
+		}
+		finally{
+			if(this.selecionadoData != null){
+				selecionadoTable.setItems(this.selecionadoData);
+			}
+		}
+		
 	}
 	
-	@FXML
+	
 	public void setPessoa(Pessoa func){
 		
 		this.cbVoluntarioCadastro.setItems(isVoluntario);
@@ -188,16 +199,26 @@ public class FuncionarioController {
 		this.lbNome.setText(logado.getNome());
 		LocalDate hoje = LocalDate.now();
 		DateTimeFormatter formatador = DateTimeFormatter.ofPattern("MM/YYYY");
-		EscalaMes escTemp = Servidor.getInstance().procurarEscala(hoje.format(formatador));
-		Selecionado [] novo = escTemp.getVoluntarios();
-		if(escTemp != null){
-			for(int i = 0; i < novo.length; i++){
-				if(escTemp.getVoluntario(i).getMatricula().equals(logado.getMatricula())){
-					int x = escTemp.getVoluntario(i).getDiasSorteados().length;
-					this.lbFuncionarioDSPreencher(escTemp, x, i);
+		EscalaMes escTemp = new EscalaMes();
+		try {
+			escTemp = Servidor.getInstance().procurarEscala(hoje.format(formatador));
+		} catch (EscalaNaoEncontradaException e) {
+			e.printStackTrace();
+		}
+		finally{
+			if(escTemp != null){
+				ArrayList<Selecionado> novo = escTemp.getVoluntarios();
+				if(escTemp != null){
+					for(int i = 0; i < novo.size(); i++){
+						if(escTemp.getVoluntario(i).getMatricula().equals(logado.getMatricula())){
+							int x = escTemp.getVoluntario(i).getDiasSorteados().size();
+							this.lbFuncionarioDSPreencher(escTemp, x, i);
+							}
 					}
+				}
 			}
 		}
+		
 		//this.data.addAll(novo);
 		//this.SelecionadoTable.setItems(data);
 	}
@@ -210,7 +231,7 @@ public class FuncionarioController {
 	private void lbFuncionarioDSPreencher(EscalaMes escTemp, int x, int i){
 		switch(x){
 		case 1: {
-			lbD01.setText(escTemp.getVoluntario(i).getDiaStringFormat(0));
+			lbD01.setText(escTemp.getVoluntario(i).getDiaSorteado(0));
 			lbD02.setText("");
 			lbD03.setText("");
 			lbD04.setText("");
@@ -223,8 +244,8 @@ public class FuncionarioController {
 			break;
 		}
 		case 2: {
-			lbD01.setText(escTemp.getVoluntario(i).getDiaStringFormat(0));
-			lbD02.setText(escTemp.getVoluntario(i).getDiaStringFormat(1));
+			lbD01.setText(escTemp.getVoluntario(i).getDiaSorteado(0));
+			lbD02.setText(escTemp.getVoluntario(i).getDiaSorteado(1));
 			lbD03.setText("");
 			lbD04.setText("");
 			lbD05.setText("");
@@ -236,9 +257,9 @@ public class FuncionarioController {
 			break;
 		}
 		case 3: {
-			lbD01.setText(escTemp.getVoluntario(i).getDiaStringFormat(0));
-			lbD02.setText(escTemp.getVoluntario(i).getDiaStringFormat(1));
-			lbD03.setText(escTemp.getVoluntario(i).getDiaStringFormat(2));
+			lbD01.setText(escTemp.getVoluntario(i).getDiaSorteado(0));
+			lbD02.setText(escTemp.getVoluntario(i).getDiaSorteado(1));
+			lbD03.setText(escTemp.getVoluntario(i).getDiaSorteado(2));
 			lbD04.setText("");
 			lbD05.setText("");
 			lbD06.setText("");
@@ -249,10 +270,10 @@ public class FuncionarioController {
 			break;
 		}
 		case 4: {
-			lbD01.setText(escTemp.getVoluntario(i).getDiaStringFormat(0));
-			lbD02.setText(escTemp.getVoluntario(i).getDiaStringFormat(1));
-			lbD03.setText(escTemp.getVoluntario(i).getDiaStringFormat(2));
-			lbD04.setText(escTemp.getVoluntario(i).getDiaStringFormat(3));
+			lbD01.setText(escTemp.getVoluntario(i).getDiaSorteado(0));
+			lbD02.setText(escTemp.getVoluntario(i).getDiaSorteado(1));
+			lbD03.setText(escTemp.getVoluntario(i).getDiaSorteado(2));
+			lbD04.setText(escTemp.getVoluntario(i).getDiaSorteado(3));
 			lbD05.setText("");
 			lbD06.setText("");
 			lbD07.setText("");
@@ -262,11 +283,11 @@ public class FuncionarioController {
 			break;
 		}
 		case 5: {
-			lbD01.setText(escTemp.getVoluntario(i).getDiaStringFormat(0));
-			lbD02.setText(escTemp.getVoluntario(i).getDiaStringFormat(1));
-			lbD03.setText(escTemp.getVoluntario(i).getDiaStringFormat(2));
-			lbD04.setText(escTemp.getVoluntario(i).getDiaStringFormat(3));
-			lbD05.setText(escTemp.getVoluntario(i).getDiaStringFormat(4));
+			lbD01.setText(escTemp.getVoluntario(i).getDiaSorteado(0));
+			lbD02.setText(escTemp.getVoluntario(i).getDiaSorteado(1));
+			lbD03.setText(escTemp.getVoluntario(i).getDiaSorteado(2));
+			lbD04.setText(escTemp.getVoluntario(i).getDiaSorteado(3));
+			lbD05.setText(escTemp.getVoluntario(i).getDiaSorteado(4));
 			lbD06.setText("");
 			lbD07.setText("");
 			lbD08.setText("");
@@ -275,12 +296,12 @@ public class FuncionarioController {
 			break;
 		}
 		case 6: {
-			lbD01.setText(escTemp.getVoluntario(i).getDiaStringFormat(0));
-			lbD02.setText(escTemp.getVoluntario(i).getDiaStringFormat(1));
-			lbD03.setText(escTemp.getVoluntario(i).getDiaStringFormat(2));
-			lbD04.setText(escTemp.getVoluntario(i).getDiaStringFormat(3));
-			lbD05.setText(escTemp.getVoluntario(i).getDiaStringFormat(4));
-			lbD06.setText(escTemp.getVoluntario(i).getDiaStringFormat(5));
+			lbD01.setText(escTemp.getVoluntario(i).getDiaSorteado(0));
+			lbD02.setText(escTemp.getVoluntario(i).getDiaSorteado(1));
+			lbD03.setText(escTemp.getVoluntario(i).getDiaSorteado(2));
+			lbD04.setText(escTemp.getVoluntario(i).getDiaSorteado(3));
+			lbD05.setText(escTemp.getVoluntario(i).getDiaSorteado(4));
+			lbD06.setText(escTemp.getVoluntario(i).getDiaSorteado(5));
 			lbD07.setText("");
 			lbD08.setText("");
 			lbD09.setText("");
@@ -288,55 +309,55 @@ public class FuncionarioController {
 			break;
 		}
 		case 7: {
-			lbD01.setText(escTemp.getVoluntario(i).getDiaStringFormat(0));
-			lbD02.setText(escTemp.getVoluntario(i).getDiaStringFormat(1));
-			lbD03.setText(escTemp.getVoluntario(i).getDiaStringFormat(2));
-			lbD04.setText(escTemp.getVoluntario(i).getDiaStringFormat(3));
-			lbD05.setText(escTemp.getVoluntario(i).getDiaStringFormat(4));
-			lbD06.setText(escTemp.getVoluntario(i).getDiaStringFormat(5));
-			lbD07.setText(escTemp.getVoluntario(i).getDiaStringFormat(6));
+			lbD01.setText(escTemp.getVoluntario(i).getDiaSorteado(0));
+			lbD02.setText(escTemp.getVoluntario(i).getDiaSorteado(1));
+			lbD03.setText(escTemp.getVoluntario(i).getDiaSorteado(2));
+			lbD04.setText(escTemp.getVoluntario(i).getDiaSorteado(3));
+			lbD05.setText(escTemp.getVoluntario(i).getDiaSorteado(4));
+			lbD06.setText(escTemp.getVoluntario(i).getDiaSorteado(5));
+			lbD07.setText(escTemp.getVoluntario(i).getDiaSorteado(6));
 			lbD08.setText("");
 			lbD09.setText("");
 			lbD10.setText("");
 			break;
 		}
 		case 8: {
-			lbD01.setText(escTemp.getVoluntario(i).getDiaStringFormat(0));
-			lbD02.setText(escTemp.getVoluntario(i).getDiaStringFormat(1));
-			lbD03.setText(escTemp.getVoluntario(i).getDiaStringFormat(2));
-			lbD04.setText(escTemp.getVoluntario(i).getDiaStringFormat(3));
-			lbD05.setText(escTemp.getVoluntario(i).getDiaStringFormat(4));
-			lbD06.setText(escTemp.getVoluntario(i).getDiaStringFormat(5));
-			lbD07.setText(escTemp.getVoluntario(i).getDiaStringFormat(6));
-			lbD08.setText(escTemp.getVoluntario(i).getDiaStringFormat(7));
+			lbD01.setText(escTemp.getVoluntario(i).getDiaSorteado(0));
+			lbD02.setText(escTemp.getVoluntario(i).getDiaSorteado(1));
+			lbD03.setText(escTemp.getVoluntario(i).getDiaSorteado(2));
+			lbD04.setText(escTemp.getVoluntario(i).getDiaSorteado(3));
+			lbD05.setText(escTemp.getVoluntario(i).getDiaSorteado(4));
+			lbD06.setText(escTemp.getVoluntario(i).getDiaSorteado(5));
+			lbD07.setText(escTemp.getVoluntario(i).getDiaSorteado(6));
+			lbD08.setText(escTemp.getVoluntario(i).getDiaSorteado(7));
 			lbD09.setText("");
 			lbD10.setText("");
 			break;
 		}
 		case 9: {
-			lbD01.setText(escTemp.getVoluntario(i).getDiaStringFormat(0));
-			lbD02.setText(escTemp.getVoluntario(i).getDiaStringFormat(1));
-			lbD03.setText(escTemp.getVoluntario(i).getDiaStringFormat(2));
-			lbD04.setText(escTemp.getVoluntario(i).getDiaStringFormat(3));
-			lbD05.setText(escTemp.getVoluntario(i).getDiaStringFormat(4));
-			lbD06.setText(escTemp.getVoluntario(i).getDiaStringFormat(5));
-			lbD07.setText(escTemp.getVoluntario(i).getDiaStringFormat(6));
-			lbD08.setText(escTemp.getVoluntario(i).getDiaStringFormat(7));
-			lbD09.setText(escTemp.getVoluntario(i).getDiaStringFormat(8));
+			lbD01.setText(escTemp.getVoluntario(i).getDiaSorteado(0));
+			lbD02.setText(escTemp.getVoluntario(i).getDiaSorteado(1));
+			lbD03.setText(escTemp.getVoluntario(i).getDiaSorteado(2));
+			lbD04.setText(escTemp.getVoluntario(i).getDiaSorteado(3));
+			lbD05.setText(escTemp.getVoluntario(i).getDiaSorteado(4));
+			lbD06.setText(escTemp.getVoluntario(i).getDiaSorteado(5));
+			lbD07.setText(escTemp.getVoluntario(i).getDiaSorteado(6));
+			lbD08.setText(escTemp.getVoluntario(i).getDiaSorteado(7));
+			lbD09.setText(escTemp.getVoluntario(i).getDiaSorteado(8));
 			lbD10.setText("");
 			break;
 		}
 		case 10: {
-			lbD01.setText(escTemp.getVoluntario(i).getDiaStringFormat(0));
-			lbD02.setText(escTemp.getVoluntario(i).getDiaStringFormat(1));
-			lbD03.setText(escTemp.getVoluntario(i).getDiaStringFormat(2));
-			lbD04.setText(escTemp.getVoluntario(i).getDiaStringFormat(3));
-			lbD05.setText(escTemp.getVoluntario(i).getDiaStringFormat(4));
-			lbD06.setText(escTemp.getVoluntario(i).getDiaStringFormat(5));
-			lbD07.setText(escTemp.getVoluntario(i).getDiaStringFormat(6));
-			lbD08.setText(escTemp.getVoluntario(i).getDiaStringFormat(7));
-			lbD09.setText(escTemp.getVoluntario(i).getDiaStringFormat(8));
-			lbD10.setText(escTemp.getVoluntario(i).getDiaStringFormat(9));
+			lbD01.setText(escTemp.getVoluntario(i).getDiaSorteado(0));
+			lbD02.setText(escTemp.getVoluntario(i).getDiaSorteado(1));
+			lbD03.setText(escTemp.getVoluntario(i).getDiaSorteado(2));
+			lbD04.setText(escTemp.getVoluntario(i).getDiaSorteado(3));
+			lbD05.setText(escTemp.getVoluntario(i).getDiaSorteado(4));
+			lbD06.setText(escTemp.getVoluntario(i).getDiaSorteado(5));
+			lbD07.setText(escTemp.getVoluntario(i).getDiaSorteado(6));
+			lbD08.setText(escTemp.getVoluntario(i).getDiaSorteado(7));
+			lbD09.setText(escTemp.getVoluntario(i).getDiaSorteado(8));
+			lbD10.setText(escTemp.getVoluntario(i).getDiaSorteado(9));
 			break;
 		}
 		
@@ -354,22 +375,23 @@ public class FuncionarioController {
 		}
 		String [] dias  = tfDiasPreferidosCadastro.getText().split(Pattern.quote(","));
 		
-		EscalaNormal temp = new EscalaNormal( this.EscalaNormalX(cbEscalaCadastro), Integer.parseInt(this.tfQTDServicosCadastro.getText()));
+		EscalaNormal temp = new EscalaNormal( this.EscalaNormalX(cbEscalaCadastro));
 		for(int i = 0; i < dias.length; i++){
-			if(i <= Integer.parseInt(this.tfQTDServicosCadastro.getText())){
-				temp.setDiaPreferido(i, Integer.parseInt(dias[i]));
-			}
+
+				temp.getDiasPreferidos().add(dias[i]);			
 		}
 		
-		temp.setDiasSorteados(this.EscalaNormalX(cbEscalaCadastro));
-		
-		for(int i = 0; i < temp.getDiasPreferidosQtd(); i++){
+		for(int i = 0; i < temp.getDiasPreferidos().size(); i++){
 			for(int j = 0; j < temp.getDiasBloqueados().length; j++){
-				if(temp.getDiaPreferido(i) == temp.getDiaBloqueado(j)){
-					temp.setDiaPreferido(i, 0);
+				if(temp.getDiaPreferido(i).equals(temp.getDiaBloqueado(j)) ){
+					System.out.println(temp.getDiaPreferido(i));
+					System.out.println(temp.getDiaBloqueado(j) + "Blok");
+					temp.getDiasPreferidos().remove(i);
 				}
 			}
 		}
+		
+		temp.setDiasQTD(Integer.parseInt(tfQTDServicosCadastro.getText()));
 		
 		if(this.cbVoluntarioCadastro.getValue().equals("SIM")){
 			temp.setVoluntario(true);
@@ -419,16 +441,28 @@ public class FuncionarioController {
 	@FXML
 	private void handleConsultar(){
 		ObservableList<Selecionado> temporal = FXCollections.observableArrayList();
-		EscalaMes temp = Servidor.getInstance().procurarEscala(tfMesAno.getText());
-		temporal.addAll(temp.getVoluntarios());
-		tcNome2.setCellValueFactory(cellData -> cellData.getValue().getNomeProperty());
-		tcMatricula2.setCellValueFactory(cellData -> cellData.getValue().getMatriculaProperty());
-		tcCargo2.setCellValueFactory(cellData -> cellData.getValue().getCargoProperty());
-		tcFuncao2.setCellValueFactory(cellData -> cellData.getValue().getFuncaoProperty());
-		tcDiasSorteados2.setCellValueFactory(cellData -> cellData.getValue().getDiasSorteadosProperty());
-		tcTotalDias2.setCellValueFactory(cellData -> cellData.getValue().getTotalDiasProperty());
-		selecionadoTable2.setItems(temporal);
-	}
+		EscalaMes temp = new EscalaMes();
+		try {
+			temp = Servidor.getInstance().procurarEscala(tfMesAno.getText());
+		} catch (EscalaNaoEncontradaException e) {
+			e.printStackTrace();
+		}
+		
+		finally{
+			if(temp != null){
+				temporal.addAll(temp.getVoluntarios());
+				tcNome2.setCellValueFactory(cellData -> cellData.getValue().getNomeProperty());
+				tcMatricula2.setCellValueFactory(cellData -> cellData.getValue().getMatriculaProperty());
+				tcCargo2.setCellValueFactory(cellData -> cellData.getValue().getCargoProperty());
+				tcFuncao2.setCellValueFactory(cellData -> cellData.getValue().getFuncaoProperty());
+				tcDiasSorteados2.setCellValueFactory(cellData -> cellData.getValue().getDiasSorteadosProperty());
+				tcTotalDias2.setCellValueFactory(cellData -> cellData.getValue().getTotalDiasProperty());
+				selecionadoTable2.setItems(temporal);
+			}
+
+		}
+		}
+			
 	
 	@FXML
 	private void handleLogout(){
